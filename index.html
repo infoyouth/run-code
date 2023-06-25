@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Online GCC Compiler</title>
+</head>
+<body>
+  <textarea id="code" rows="10" cols="80"></textarea>
+  <button onclick="compile()">Compile</button>
+  <pre id="output"></pre>
+
+  <script src="https://cdn.jsdelivr.net/npm/@wasmer/wasi"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@wasmer/cli"></script>
+  <script>
+    async function compile() {
+      const code = document.getElementById('code').value;
+      const wasmModule = await WebAssembly.compile(code);
+      const wasmInstance = await WebAssembly.instantiate(wasmModule, {
+        wasi_snapshot_preview1: {
+          fd_write: function(fd, iovs, iovs_len, nwritten) {
+            const encoder = new TextDecoder('utf-8');
+            const text = encoder.decode(new Uint8Array(
+              wasmInstance.exports.memory.buffer, iovs, iovs_len));
+            document.getElementById('output').textContent += text;
+            wasmInstance.exports.__wasi_snapshot_preview1_fd_write(fd, iovs, iovs_len, nwritten);
+          },
+        },
+      });
+      wasmInstance.exports._start();
+    }
+  </script>
+</body>
+</html>
