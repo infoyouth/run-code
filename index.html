@@ -2,17 +2,32 @@
 <html>
 <head>
   <title>Online GCC Compiler</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/mode/clike/clike.min.js"></script>
 </head>
 <body>
   <textarea id="code" rows="10" cols="80"></textarea>
+  <select id="language">
+    <option value="text/x-csrc">C</option>
+    <option value="text/x-c++src">C++</option>
+    <option value="text/x-java">Java</option>
+    <!-- Add more language options as needed -->
+  </select>
   <button onclick="compile()">Compile</button>
   <pre id="output"></pre>
 
   <script src="https://cdn.jsdelivr.net/npm/@wasmer/wasi"></script>
   <script src="https://cdn.jsdelivr.net/npm/@wasmer/cli"></script>
   <script>
+    const codeMirror = CodeMirror.fromTextArea(document.getElementById('code'), {
+      lineNumbers: true,
+      mode: 'text/x-csrc' // Default language is C
+    });
+
     async function compile() {
-      const code = document.getElementById('code').value;
+      const code = codeMirror.getValue();
+      const language = document.getElementById('language').value;
       const wasmModule = await WebAssembly.compile(code);
       const wasmInstance = await WebAssembly.instantiate(wasmModule, {
         wasi_snapshot_preview1: {
