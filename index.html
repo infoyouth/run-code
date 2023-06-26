@@ -11,14 +11,14 @@
       font-family: monospace;
     }
 
-    /* Styles for the language selection dropdown */
-    #language {
+    /* Styles for the selection options */
+    .selection-row {
+      display: flex;
       margin-bottom: 10px;
     }
 
-    /* Styles for the font size selection */
-    #fontSize {
-      margin-bottom: 10px;
+    .selection-row > select {
+      margin-right: 10px;
     }
 
     /* Styles for the compile button */
@@ -51,33 +51,29 @@
 </head>
 <body>
   <h1>Online GCC Compiler</h1>
-  <label for="language">Select a programming language:</label>
-  <select id="language">
-    <option value="text/x-csrc">C</option>
-    <option value="text/x-c++src">C++</option>
-    <option value="text/x-java">Java</option>
-    <option value="text/x-python">Python</option>
-    <option value="text/x-go">Go</option>
-    <option value="text/x-ruby">Ruby</option>
-    <!-- Add more language options as needed -->
-  </select>
-  <br>
-  <label for="fontSize">Select font size:</label>
-  <select id="fontSize">
-    <option value="small">Small</option>
-    <option value="medium">Medium</option>
-    <option value="large">Large</option>
-    <option value="xlarge">Extra Large</option>
-  </select>
-  <br>
-  <label for="backgroundColor">Select background color:</label>
-  <select id="backgroundColor">
-    <option value="#f9f9f9">Light Gray</option>
-    <option value="#ffffff">White</option>
-    <option value="#f2f2f2">Lighter Gray</option>
-    <option value="#eeeeee">Even Lighter Gray</option>
-  </select>
-  <br>
+  <div class="selection-row">
+    <select id="language">
+      <option value="text/x-csrc">C</option>
+      <option value="text/x-c++src">C++</option>
+      <option value="text/x-java">Java</option>
+      <option value="text/x-python">Python</option>
+      <option value="text/x-go">Go</option>
+      <option value="text/x-ruby">Ruby</option>
+      <!-- Add more language options as needed -->
+    </select>
+    <select id="fontSize">
+      <option value="small">Small</option>
+      <option value="medium">Medium</option>
+      <option value="large">Large</option>
+      <option value="xlarge">Extra Large</option>
+    </select>
+    <select id="backgroundColor">
+      <option value="#f9f9f9">Light Gray</option>
+      <option value="#ffffff">White</option>
+      <option value="#f2f2f2">Lighter Gray</option>
+      <option value="#eeeeee">Even Lighter Gray</option>
+    </select>
+  </div>
   <textarea id="code"></textarea>
   <br>
   <button id="compileBtn" onclick="compile()">Compile</button>
@@ -100,7 +96,7 @@
       codeMirror.getWrapperElement().style.fontSize = fontSize;
 
       // Update background color
-      document.body.style.backgroundColor = backgroundColor;
+      codeMirror.getWrapperElement().style.backgroundColor = backgroundColor;
     }
 
     async function compile() {
