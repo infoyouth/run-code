@@ -3,18 +3,60 @@
 <head>
   <title>Online GCC Compiler</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.css">
+  <style>
+    /* Styles for the code editor */
+    .CodeMirror {
+      height: 300px;
+      border: 1px solid #ddd;
+      font-family: monospace;
+    }
+
+    /* Styles for the language selection dropdown */
+    #language {
+      margin-bottom: 10px;
+    }
+
+    /* Styles for the compile button */
+    #compileBtn {
+      background-color: #4CAF50;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      cursor: pointer;
+    }
+
+    /* Styles for the output area */
+    #output {
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      padding: 10px;
+      white-space: pre-wrap;
+      font-family: monospace;
+      height: 200px;
+      overflow-y: auto;
+    }
+
+    /* Hover effect for the compile button */
+    #compileBtn:hover {
+      background-color: #45a049;
+    }
+  </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/mode/clike/clike.min.js"></script>
 </head>
 <body>
-  <textarea id="code" rows="10" cols="80"></textarea>
+  <h1>Online GCC Compiler</h1>
   <select id="language">
     <option value="text/x-csrc">C</option>
     <option value="text/x-c++src">C++</option>
     <option value="text/x-java">Java</option>
     <!-- Add more language options as needed -->
   </select>
-  <button onclick="compile()">Compile</button>
+  <br>
+  <textarea id="code"></textarea>
+  <br>
+  <button id="compileBtn" onclick="compile()">Compile</button>
+  <br>
   <pre id="output"></pre>
 
   <script src="https://cdn.jsdelivr.net/npm/@wasmer/wasi"></script>
