@@ -45,6 +45,17 @@
     #compileBtn:hover {
       background-color: #45a049;
     }
+
+    /* Responsive styles */
+    @media screen and (max-width: 600px) {
+      .selection-row {
+        flex-direction: column;
+      }
+      .selection-row > select {
+        margin-right: 0;
+        margin-bottom: 10px;
+      }
+    }
   </style>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/mode/clike/clike.min.js"></script>
