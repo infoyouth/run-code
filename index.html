@@ -1,136 +1,39 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Online GCC Compiler</title>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.css">
-  <style>
-    /* Styles for the code editor */
-    .CodeMirror {
-      height: 300px;
-      border: 1px solid #ddd;
-      font-family: monospace;
-    }
-
-    /* Styles for the selection options */
-    .selection-row {
-      display: flex;
-      margin-bottom: 10px;
-    }
-
-    .selection-row > select {
-      margin-right: 10px;
-    }
-
-    /* Styles for the compile button */
-    #compileBtn {
-      background-color: #4CAF50;
-      color: white;
-      padding: 10px 20px;
-      border: none;
-      cursor: pointer;
-    }
-
-    /* Styles for the output area */
-    #output {
-      background-color: #f9f9f9;
-      border: 1px solid #ddd;
-      padding: 10px;
-      white-space: pre-wrap;
-      font-family: monospace;
-      height: 200px;
-      overflow-y: auto;
-    }
-
-    /* Hover effect for the compile button */
-    #compileBtn:hover {
-      background-color: #45a049;
-    }
-
-    /* Responsive styles */
-    @media screen and (max-width: 600px) {
-      .selection-row {
-        flex-direction: column;
-      }
-      .selection-row > select {
-        margin-right: 0;
-        margin-bottom: 10px;
-      }
-    }
-  </style>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/mode/clike/clike.min.js"></script>
+  <title>Online Compiler</title>
+  <link rel="stylesheet" type="text/css" href="styles.css">
 </head>
 <body>
-  <h1>Online GCC Compiler</h1>
-  <div class="selection-row">
-    <select id="language">
-      <option value="text/x-csrc">C</option>
-      <option value="text/x-c++src">C++</option>
-      <option value="text/x-java">Java</option>
-      <option value="text/x-python">Python</option>
-      <option value="text/x-go">Go</option>
-      <option value="text/x-ruby">Ruby</option>
-      <!-- Add more language options as needed -->
-    </select>
-    <select id="fontSize">
-      <option value="10px">Small</option>
-      <option value="12px">Medium</option>
-      <option value="16px">Large</option>
-      <option value="20px">Extra Large</option>
-    </select>
-    <select id="backgroundColor">
-      <option value="#f9f9f9">Light Gray</option>
-      <option value="#ffffff">White</option>
-      <option value="#f2f2f2">Lighter Gray</option>
-      <option value="#eeeeee">Even Lighter Gray</option>
-    </select>
-  </div>
-  <textarea id="code"></textarea>
-  <br>
-  <button id="compileBtn" onclick="compile()">Compile</button>
-  <br>
-  <pre id="output"></pre>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="#">Home</a></li>
+        <li><a href="#">About</a></li>
+        <li><a href="#">Contact</a></li>
+      </ul>
+    </nav>
+  </header>
+  
+  <main>
+    <section class="code-section">
+      <div class="code-input-container">
+        <h2>Write your code below:</h2>
+        <textarea id="code-input" class="code-input" placeholder="Enter your code here"></textarea>
+      </div>
+      
+      <div class="button-container">
+        <button id="run-btn" class="btn run-btn">Run</button>
+        <button id="reset-btn" class="btn reset-btn">Reset</button>
+      </div>
+      
+      <div class="code-output-container">
+        <h2>Output:</h2>
+        <pre id="code-output" class="code-output"></pre>
+      </div>
+    </section>
+  </main>
 
-  <script src="https://cdn.jsdelivr.net/npm/@wasmer/wasi"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@wasmer/cli"></script>
-  <script>
-    const codeMirror = CodeMirror.fromTextArea(document.getElementById('code'), {
-      lineNumbers: true,
-      mode: 'text/x-csrc' // Default language is C
-    });
-
-    function updateEditorStyles() {
-      const fontSize = document.getElementById('fontSize').value;
-      const backgroundColor = document.getElementById('backgroundColor').value;
-
-      // Update font size
-      codeMirror.getWrapperElement().style.fontSize = fontSize;
-
-      // Update background color
-      codeMirror.getWrapperElement().style.backgroundColor = backgroundColor;
-    }
-
-    async function compile() {
-      const code = codeMirror.getValue();
-      const language = document.getElementById('language').value;
-      const wasmModule = await WebAssembly.compile(code);
-      const wasmInstance = await WebAssembly.instantiate(wasmModule, {
-        wasi_snapshot_preview1: {
-          fd_write: function(fd, iovs, iovs_len, nwritten) {
-            const encoder = new TextDecoder('utf-8');
-            const text = encoder.decode(new Uint8Array(
-              wasmInstance.exports.memory.buffer, iovs, iovs_len));
-            document.getElementById('output').textContent += text;
-            wasmInstance.exports.__wasi_snapshot_preview1_fd_write(fd, iovs, iovs_len, nwritten);
-          },
-        },
-      });
-      wasmInstance.exports._start();
-    }
-
-    // Update editor styles when font size or background color changes
-    document.getElementById('fontSize').addEventListener('change', updateEditorStyles);
-    document.getElementById('backgroundColor').addEventListener('change', updateEditorStyles);
-  </script>
+  <script src="script.js"></script>
 </body>
 </html>
