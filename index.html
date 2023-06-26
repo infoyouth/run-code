@@ -16,6 +16,11 @@
       margin-bottom: 10px;
     }
 
+    /* Styles for the font size selection */
+    #fontSize {
+      margin-bottom: 10px;
+    }
+
     /* Styles for the compile button */
     #compileBtn {
       background-color: #4CAF50;
@@ -46,11 +51,31 @@
 </head>
 <body>
   <h1>Online GCC Compiler</h1>
+  <label for="language">Select a programming language:</label>
   <select id="language">
     <option value="text/x-csrc">C</option>
     <option value="text/x-c++src">C++</option>
     <option value="text/x-java">Java</option>
+    <option value="text/x-python">Python</option>
+    <option value="text/x-go">Go</option>
+    <option value="text/x-ruby">Ruby</option>
     <!-- Add more language options as needed -->
+  </select>
+  <br>
+  <label for="fontSize">Select font size:</label>
+  <select id="fontSize">
+    <option value="small">Small</option>
+    <option value="medium">Medium</option>
+    <option value="large">Large</option>
+    <option value="xlarge">Extra Large</option>
+  </select>
+  <br>
+  <label for="backgroundColor">Select background color:</label>
+  <select id="backgroundColor">
+    <option value="#f9f9f9">Light Gray</option>
+    <option value="#ffffff">White</option>
+    <option value="#f2f2f2">Lighter Gray</option>
+    <option value="#eeeeee">Even Lighter Gray</option>
   </select>
   <br>
   <textarea id="code"></textarea>
@@ -66,6 +91,17 @@
       lineNumbers: true,
       mode: 'text/x-csrc' // Default language is C
     });
+
+    function updateEditorStyles() {
+      const fontSize = document.getElementById('fontSize').value;
+      const backgroundColor = document.getElementById('backgroundColor').value;
+
+      // Update font size
+      codeMirror.getWrapperElement().style.fontSize = fontSize;
+
+      // Update background color
+      document.body.style.backgroundColor = backgroundColor;
+    }
 
     async function compile() {
       const code = codeMirror.getValue();
@@ -84,6 +120,10 @@
       });
       wasmInstance.exports._start();
     }
+
+    // Update editor styles when font size or background color changes
+    document.getElementById('fontSize').addEventListener('change', updateEditorStyles);
+    document.getElementById('backgroundColor').addEventListener('change', updateEditorStyles);
   </script>
 </body>
 </html>
