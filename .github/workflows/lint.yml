@@ -1,4 +1,4 @@
-name: Code Linting
+name: ESLint
 
 on:
   push:
@@ -16,19 +16,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up Node.js
-        uses: actions/setup-node@v2
-        with:
-          node-version: 14
-
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: HTML Linting
-        run: npx htmlhint .
-
-      - name: JavaScript Linting
-        run: npx eslint .
-
-      - name: CSS Linting
-        run: npx stylelint .
+      - name: Run ESLint
+        run: npm run lint
