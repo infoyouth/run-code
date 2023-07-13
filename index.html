@@ -1,39 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-  <title>Online Compiler</title>
-  <link rel="stylesheet" type="text/css" href="css/style.css">
+  <meta charset="UTF-8">
+  <title>Code Editor</title>
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <nav>
-      <ul>
-        <li><a href="#">Home</a></li>
-        <li><a href="#">About</a></li>
-        <li><a href="#">Contact</a></li>
-      </ul>
-    </nav>
-  </header>
+  <div class="container">
+    <div class="editor">
+      <div class="toolbar">
+        <select id="language-select">
+          <option value="javascript">JavaScript</option>
+          <option value="python">Python</option>
+          <option value="java">Java</option>
+        </select>
+        <select id="theme-select">
+          <option value="light">Light Theme</option>
+          <option value="dark">Dark Theme</option>
+        </select>
+        <button id="indent-button">Indent</button>
+        <button id="fold-button">Fold</button>
+      </div>
+      <textarea id="code-input"></textarea>
+    </div>
+  </div>
   
-  <main>
-    <section class="code-section">
-      <div class="code-input-container">
-        <h2>Write your code below:</h2>
-        <textarea id="code-input" class="code-input" placeholder="Enter your code here"></textarea>
-      </div>
-      
-      <div class="button-container">
-        <button id="run-btn" class="btn run-btn">Run</button>
-        <button id="reset-btn" class="btn reset-btn">Reset</button>
-      </div>
-      
-      <div class="code-output-container">
-        <h2>Output:</h2>
-        <pre id="code-output" class="code-output"></pre>
-      </div>
-    </section>
-  </main>
+  <script src="anime.min.js"></script>
+  <script src="codeeditor.js"></script>
+    <!-- Include Prism.js -->
+  <link rel="stylesheet" href="prism.css">
+  <script src="prism.js"></script>
 
-  <script src="js/script.js"></script>
+  <!-- Include the desired Prism language files -->
+  <script src="prism-javascript.js"></script>
 </body>
 </html>
